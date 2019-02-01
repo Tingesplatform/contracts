@@ -3,7 +3,6 @@ const { time } = require('openzeppelin-test-helpers');
 const Tap = artifacts.require('Tap');
 
 contract('Tap', function ([_, spender, bucket, registry]) {
-
   before(async function () {
     // Advance to the next block to correctly read time in the solidity "now" function interpreted by ganache
     await time.advanceBlock();
@@ -37,5 +36,4 @@ contract('Tap', function ([_, spender, bucket, registry]) {
   it('has a current date', async function () {
     (await this.tap.lastWithdraw()).should.be.bignumber.equal(this.deployTime);
   });
-
 });

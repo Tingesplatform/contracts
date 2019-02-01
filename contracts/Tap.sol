@@ -17,12 +17,18 @@ contract Tap {
     /**
      * @dev Constructor that configures the initial bucket state on deployment
      */
-    constructor (address _spender, address _bucket, string memory _description, uint256 _rate, address _registry) public {
+    constructor (
+        address _spender,
+        address _bucket,
+        string memory _description,
+        uint256 _rate,
+        address _registry
+    ) public {
         spender = _spender;
         bucket = _bucket;
         description = _description;
         rate = _rate;
-        lastWithdraw = now;
+        lastWithdraw = now; // solhint-disable not-rely-on-time
         registry = _registry;
     }
 }
