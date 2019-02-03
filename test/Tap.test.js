@@ -2,14 +2,14 @@ const { time } = require('openzeppelin-test-helpers');
 
 const Tap = artifacts.require('Tap');
 
-contract('Tap', function ([_, spender, bucket, registry]) {
+contract('Tap', function ([_, spender, fund, registry]) {
   before(async function () {
     // Advance to the next block to correctly read time in the solidity "now" function interpreted by ganache
     await time.advanceBlock();
   });
 
   beforeEach(async function () {
-    this.tap = await Tap.new(spender, bucket, 'Tap Name', 12345678, registry);
+    this.tap = await Tap.new(registry, fund, spender, 12345678, 'Tap Name');
     this.deployTime = (await time.latest());
   });
 
@@ -18,7 +18,7 @@ contract('Tap', function ([_, spender, bucket, registry]) {
   });
 
   it('has a bucket', async function () {
-    (await this.tap.bucket()).should.equal(bucket);
+    (await this.tap.fund()).should.equal(fund);
   });
 
   it('has a description', async function () {
@@ -33,7 +33,7 @@ contract('Tap', function ([_, spender, bucket, registry]) {
     (await this.tap.registry()).should.equal(registry);
   });
 
-  it('has a current date', async function () {
+  it('has a current lastWithdraw', async function () {
     (await this.tap.lastWithdraw()).should.be.bignumber.equal(this.deployTime);
   });
 });
